@@ -109,7 +109,9 @@ smartplot <- smardataPlot |>
 
 ggplot2::ggsave(
   filename = file.path("output", "smart_plot_wrap.png"),
-  plot = smartplot
+  plot = smartplot,
+  width = 12,
+  height = 6
 )
 
 ## Calcul d'entropie
