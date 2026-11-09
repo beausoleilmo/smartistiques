@@ -27,3 +27,9 @@ Colonnes des boîtes :
 - date
 - observateurs
 
+### Graphique 
+
+<p align="center">
+  <img src="output/smart_plot_wrap.png" alt="Smarties graphique" width="600">
+</p>
+

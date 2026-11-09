@@ -41,12 +41,12 @@ smart_coltab <- data.frame(
 )
 # Lire les données des boîtes
 smartboite <- readxl::read_xlsx(
-  path = file.path("experience_smarties.xlsx"),
+  path = file.path("data", "experience_smarties.xlsx"),
   sheet = 2
 )
 # Lire les données expérimentales
 smartdata <- readxl::read_xlsx(
-  path = file.path("experience_smarties.xlsx"),
+  path = file.path("data", "experience_smarties.xlsx"),
   sheet = 1
 ) |>
   dplyr::left_join(
@@ -88,14 +88,16 @@ message(sprintf(
 ))
 
 # Plot with facet_wrap  allowing free scales
-smartdata |>
+smardataPlot <- smartdata |>
   # ajout du sommaire
   dplyr::left_join(
     y = smartransf,
     by = dplyr::join_by(boite_ID)
   ) |>
   # calcul pourcentage du total par boite
-  dplyr::mutate(pourcent = nombre / nb_total * 100) |>
+  dplyr::mutate(pourcent = nombre / nb_total * 100)
+
+smartplot <- smardataPlot |>
   # graphique en colonne : nb smarties par couleur
   ggplot(aes(x = nom, y = pourcent, fill = col)) +
   # Afficher les colonnes
@@ -105,6 +107,10 @@ smartdata |>
   facet_wrap(poids_g ~ boite_ID, scales = "free_x") +
   scale_fill_identity()
 
+ggplot2::ggsave(
+  filename = file.path("output", "smart_plot_wrap.png"),
+  plot = smartplot
+)
 
 ## Calcul d'entropie
 # Construit la matrice de commaunauté des smarties dans chaque boîte
