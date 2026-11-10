@@ -99,7 +99,14 @@ smardataPlot <- smartdata |>
 
 smartplot <- smardataPlot |>
   # graphique en colonne : nb smarties par couleur
-  ggplot(aes(x = nom, y = pourcent, fill = col)) +
+  ggplot(
+    mapping = aes(
+      x = nom,
+      # y = pourcent,
+      y = nombre,
+      fill = col
+    )
+  ) +
   # Afficher les colonnes
   geom_col() +
   # Hypothèse nulle
@@ -139,9 +146,12 @@ simpson_entropy <- diversity(community_matrix, index = "simpson")
 evenness <- shannon_entropy / log(richness)
 
 # Tableau sommaire des statistiques d'entropie
-tibble(
+smartistique <- tibble(
   richness,
   shannon_entropy,
   simpson_entropy,
   evenness
-)
+) |>
+  dplyr::bind_cols(smartransf)
+smartistique |>
+  dplyr::arrange(dplyr::desc(shannon_entropy))
